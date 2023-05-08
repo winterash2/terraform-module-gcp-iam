@@ -1,0 +1,59 @@
+expirationDate: "2023-03-27" # expirationDate가 없는 경우 유효기간 무제한으로 하려고 했는데, 
+                             # 실수로 expirationDate를 안 넣는 human 에러로 인해서
+                             # 무기한으로 권한이 들어가는것이 좋지 않은 것 같아서
+                             # 무기한인 경우 9999-09-09 를 적는 정책으로 하는 것이 좋을 것 같음
+principals:
+  users:
+    - test-user@test.com
+  groups:
+    - test-group@test.com
+  serviceAccounts:
+    - test-serviceaccount@project_id.iam.gserviceaccount.com
+assignRoles:
+  - type: organization
+    organizations:
+      - organization_id_1
+      - organization_id_2
+    roles:
+      - role_id: roles/storagetransfer.user
+      - role_id: roles/compute.admin
+        expression: resource.name == "projects/_/buckets/bkt-terraform-iam-test"
+      - role_id: roles/storage.admin
+        expression: >-
+          (
+            resource.name == "projects/_/buckets/bkt-terraform-iam-test" 
+            &&
+            resource.type == "storage.googleapis.com/Bucket") 
+          || 
+          (
+            resource.name.startsWith("projects/_/buckets/bkt-terraform-iam-test")
+            &&
+            resource.type == "storage.googleapis.com/Object"
+          )
+
+# "grants" = {
+#   "CDDEVOPS-100" = {
+#     "assignRoles" = [
+#       {
+#         "organizations" = [
+#           "your-organization-id-1"
+#           "your-organization-id-2"
+#         ]
+#         "roles" = [
+#           {
+#             "expression" = ""
+#             "role_id" = "roles/compute.editor"
+#           },
+#         ]
+#         "type" = "organization"
+#       },
+#     ]
+#     "expirationDate" = "2023-03-22"
+#     "principals" = {
+#       "users" = [
+#         "user1@gmail.com",
+#         "user2@gmail.com",
+#       ]
+#     }
+#   }
+# }

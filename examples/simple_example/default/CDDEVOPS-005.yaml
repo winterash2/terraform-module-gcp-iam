@@ -1,0 +1,50 @@
+expirationDate: "2023-03-27" # expirationDate가 없는 경우 유효기간 무제한으로 하려고 했는데, 
+                             # 실수로 expirationDate를 안 넣는 human 에러로 인해서
+                             # 무기한으로 권한이 들어가는것이 좋지 않은 것 같아서
+                             # 무기한인 경우 9999-09-09 를 적는 정책으로 하는 것이 좋을 것 같음
+principals:
+  users:
+    - lswoo@wemakeprice.com
+  # groups:
+  #   - devops_group@gmail.com
+  # serviceAccounts:
+  #   - devops_sa@gmail.com
+assignRoles:
+  - type: specific_bucket_admin
+    projects:
+      - prj-sandbox-devops-9999
+    bucket_ids:
+      - gcf-sources-773410544731-asia-northeast3
+      - jgs-test-storage
+  # - type: project
+  #   projects:
+  #     - prj-cc-sandbox-devops-0010
+  #   roles:
+  #     - role_id: roles/storage.admin
+  #     - role_id: roles/compute.admin
+        # expression: resource.name == "projects/_/buckets/bkt-terraform-iam-test"
+        # expression: >-
+        #   (
+        #     resource.name == "projects/_/buckets/bkt-terraform-iam-test" 
+        #     &&
+        #     resource.type == "storage.googleapis.com/Bucket") 
+        #   || 
+        #   (
+        #     resource.name.startsWith("projects/_/buckets/bkt-terraform-iam-test")
+        #     &&
+        #     resource.type == "storage.googleapis.com/Object"
+        #   )
+      # - role_id: roles/storagetransfer.user
+  # - type: project
+  #   projects: 
+  #     - prj-sandbox-devops-9990
+  #     # - prj-iam-terraform-test2
+  #   roles:
+  #     - role_id: roles/compute.viewer
+  # - type: specific_bucket_admin
+  #   projects: 
+  #     - prj-iam-terraform-test
+  #   bucket_ids:
+  #     - bkt-terraform-iam-test
+  #     - bkt-test-module
+  
