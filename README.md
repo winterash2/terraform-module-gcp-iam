@@ -18,7 +18,7 @@ module "iam" {
   config_directories = var.config_directories
 }
 ```
-variables.tf
+terraform.tfvars
 ```hcl
 impersonate_sa = "value"
 config_directories = [
